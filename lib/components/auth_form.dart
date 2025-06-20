@@ -34,20 +34,14 @@ class _AuthFormState extends State<AuthForm> {
                 initialValue: _formData.name,
                 onChanged: (name) => _formData.name = name,
                 decoration: InputDecoration(labelText: 'Nome de Usuário'),
-                validator: (nameL){
-                  final name = nameL ?? '';
-                  if (name.trim().length < 5){
-                    return 'O nome de usuário deve conter pelo menos 5 caracteres';
-                  }
-                  return null;
-                },
+                validator: Validatorless.min(4, 'O nome de usuário deve conter pelo menos 4 caracteres')
               ),
               TextFormField(
                 key: ValueKey('email'),
                 initialValue: _formData.email,
                 onChanged: (email) => _formData.email = email,
                 decoration: InputDecoration(labelText: 'Email'),
-                validator: Validatorless.email('O email não é válido')
+                validator: Validatorless.email('Email inválido')
                 ),
               TextFormField(
                 obscureText: true,
@@ -55,13 +49,7 @@ class _AuthFormState extends State<AuthForm> {
                 initialValue: _formData.password,
                 onChanged: (password) => _formData.password = password,
                 decoration: InputDecoration(labelText: 'Senha'),
-                validator: (passwordL){
-                  final password = passwordL ?? '';
-                  if (password.length < 6){
-                    return 'A senha deve conter pelo menos 6 caracteres';
-                  }
-                  return null;
-                },
+                validator: Validatorless.min(6, 'A senha deve conter pelo menos 6 caracteres')
               ),
               SizedBox(height: 10),
               ElevatedButton(
