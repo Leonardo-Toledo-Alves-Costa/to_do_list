@@ -3,7 +3,9 @@ import 'package:to_do_list/models/auth_form_data.dart';
 import 'package:validatorless/validatorless.dart';
 
 class AuthForm extends StatefulWidget {
-  const AuthForm({super.key});
+  final void Function(AuthFormData) onSubmit;
+
+  const AuthForm({super.key, required this.onSubmit,});
 
   @override
   State<AuthForm> createState() => _AuthFormState();
@@ -16,6 +18,8 @@ class _AuthFormState extends State<AuthForm> {
   void _submit() {
     final isValid = _formKey.currentState?.validate() ?? false;
     if (!isValid) return;
+
+    widget.onSubmit(_formData);
   }
 
   @override
@@ -28,28 +32,34 @@ class _AuthFormState extends State<AuthForm> {
           key: _formKey,
           child: Column(
             children: [
-              if(_formData.isSingup)
-              TextFormField(
-                key: ValueKey('name'),
-                initialValue: _formData.name,
-                onChanged: (name) => _formData.name = name,
-                decoration: InputDecoration(labelText: 'Nome de Usuário'),
-                validator: Validatorless.min(4, 'O nome de usuário deve conter pelo menos 4 caracteres')
-              ),
+              if (_formData.isSingup)
+                TextFormField(
+                  key: ValueKey('name'),
+                  initialValue: _formData.name,
+                  onChanged: (name) => _formData.name = name,
+                  decoration: InputDecoration(labelText: 'Nome de Usuário'),
+                  validator: Validatorless.min(
+                    4,
+                    'O nome de usuário deve conter pelo menos 4 caracteres',
+                  ),
+                ),
               TextFormField(
                 key: ValueKey('email'),
                 initialValue: _formData.email,
                 onChanged: (email) => _formData.email = email,
                 decoration: InputDecoration(labelText: 'Email'),
-                validator: Validatorless.email('Email inválido')
-                ),
+                validator: Validatorless.email('Email inválido'),
+              ),
               TextFormField(
                 obscureText: true,
                 key: ValueKey('password'),
                 initialValue: _formData.password,
                 onChanged: (password) => _formData.password = password,
                 decoration: InputDecoration(labelText: 'Senha'),
-                validator: Validatorless.min(6, 'A senha deve conter pelo menos 6 caracteres')
+                validator: Validatorless.min(
+                  6,
+                  'A senha deve conter pelo menos 6 caracteres',
+                ),
               ),
               SizedBox(height: 10),
               ElevatedButton(
