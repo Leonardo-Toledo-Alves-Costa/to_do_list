@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:to_do_list/pages/loading_page.dart';
+import 'package:to_do_list/pages/auth_page.dart';
 
 void main() {
   runApp(const MyApp());
@@ -11,7 +11,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'To do list',
       theme: ThemeData(
         primarySwatch: Colors.blue,
       appBarTheme: AppBarTheme(
@@ -20,9 +20,19 @@ class MyApp extends StatelessWidget {
       ),
       textTheme: TextTheme(
         headlineSmall: TextStyle(fontSize: 16, color: Colors.white)
-      ) 
       ),
-      home: const LoadingPage(),
+        elevatedButtonTheme: ElevatedButtonThemeData(
+          style: ElevatedButton.styleFrom(
+            backgroundColor: Colors.blue, // Cor de fundo
+            foregroundColor: Colors.white, // Cor do texto
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(8),
+            ),
+            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+          ),
+        ), 
+      ),
+      home: AuthPage(),
       debugShowCheckedModeBanner: false,
     );
   }
