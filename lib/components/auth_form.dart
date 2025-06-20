@@ -1,7 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:to_do_list/models/auth_form_data.dart';
+import 'package:validatorless/validatorless.dart';
 
-class AuthForm extends StatelessWidget {
+class AuthForm extends StatefulWidget {
   const AuthForm({super.key});
+
+  @override
+  State<AuthForm> createState() => _AuthFormState();
+}
+
+class _AuthFormState extends State<AuthForm> {
+  final _formKey = GlobalKey<FormState>();
+  final _formData = AuthFormData();
+
+  void _submit() {
+    final isValid = _formKey.currentState?.validate() ?? false;
+    if (!isValid) return;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -10,27 +25,61 @@ class AuthForm extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.all(10.0),
         child: Form(
+          key: _formKey,
           child: Column(
             children: [
+              if(_formData.isSingup)
               TextFormField(
+                key: ValueKey('name'),
+                initialValue: _formData.name,
+                onChanged: (name) => _formData.name = name,
                 decoration: InputDecoration(labelText: 'Nome de Usuário'),
+                validator: (nameL){
+                  final name = nameL ?? '';
+                  if (name.trim().length < 5){
+                    return 'O nome de usuário deve conter pelo menos 5 caracteres';
+                  }
+                  return null;
+                },
               ),
               TextFormField(
+                key: ValueKey('email'),
+                initialValue: _formData.email,
+                onChanged: (email) => _formData.email = email,
                 decoration: InputDecoration(labelText: 'Email'),
-              ),
+                validator: Validatorless.email('O email não é válido')
+                ),
               TextFormField(
                 obscureText: true,
+                key: ValueKey('password'),
+                initialValue: _formData.password,
+                onChanged: (password) => _formData.password = password,
                 decoration: InputDecoration(labelText: 'Senha'),
+                validator: (passwordL){
+                  final password = passwordL ?? '';
+                  if (password.length < 6){
+                    return 'A senha deve conter pelo menos 6 caracteres';
+                  }
+                  return null;
+                },
               ),
-              SizedBox(
-                height: 10,
-              ),
+              SizedBox(height: 10),
               ElevatedButton(
-                onPressed: () {},
-                child: Text('Entrar'),
+                onPressed: _submit,
+                child: Text(_formData.isLogin ? 'Entrar' : 'Cadastrar'),
+              ),
+              TextButton(
+                onPressed: () {
+                  setState(() {
+                    _formData.toggleAuthMode();
+                  });
+                },
+                child: Text(
+                  _formData.isLogin
+                      ? 'Criar nova conta'
+                      : 'Já possui uma conta?',
+                  style: TextStyle(color: Colors.blueGrey),
                 ),
-              TextButton(onPressed: () {}, 
-              child: Text('Criar nova conta', style: TextStyle(color: Colors.blueGrey),),
               ),
             ],
           ),
