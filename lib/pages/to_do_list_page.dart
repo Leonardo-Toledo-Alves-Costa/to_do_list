@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:to_do_list/services/auth/auth_mock_service.dart';
+import 'package:to_do_list/services/auth/auth_service.dart';
 
 class ToDoListPage extends StatelessWidget {
   const ToDoListPage({super.key});
@@ -13,7 +13,7 @@ class ToDoListPage extends StatelessWidget {
           children: [
             Text('To Do List Page'),
             TextButton(
-            onPressed: AuthMockService().logout, 
+            onPressed: AuthService().logout, 
             child: Text('Sair da aplicação'),
             )
           ],
