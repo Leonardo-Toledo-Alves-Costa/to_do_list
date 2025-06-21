@@ -1,4 +1,7 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:to_do_list/components/user_image_picker.dart';
 import 'package:to_do_list/models/auth_form_data.dart';
 import 'package:validatorless/validatorless.dart';
 
@@ -15,9 +18,26 @@ class _AuthFormState extends State<AuthForm> {
   final _formKey = GlobalKey<FormState>();
   final _formData = AuthFormData();
 
+  void _handleImagePick(File image){
+    _formData.image = image;
+  }
+
+  void _showError(String errorMsg){
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(errorMsg),
+        backgroundColor: Theme.of(context).colorScheme.error,
+      )
+    );
+  }
+
   void _submit() {
     final isValid = _formKey.currentState?.validate() ?? false;
     if (!isValid) return;
+
+    if(_formData.image == null && _formData.isSingup){
+      return _showError('Imagem não selecionada');
+    }
 
     widget.onSubmit(_formData);
   }
@@ -32,34 +52,44 @@ class _AuthFormState extends State<AuthForm> {
           key: _formKey,
           child: Column(
             children: [
+              if (_formData.isSingup) UserImagePicker(onImagePick: _handleImagePick),
               if (_formData.isSingup)
                 TextFormField(
                   key: ValueKey('name'),
                   initialValue: _formData.name,
                   onChanged: (name) => _formData.name = name,
                   decoration: InputDecoration(labelText: 'Nome de Usuário'),
-                  validator: Validatorless.min(
-                    4,
-                    'O nome de usuário deve conter pelo menos 4 caracteres',
-                  ),
+                  validator: Validatorless.multiple([
+                  Validatorless.min(
+                  4,
+                  'O nome de usuário deve conter pelo menos 4 caracteres',
+                ),
+                Validatorless.required('O nome de usuário deve conter pelo menos 4 caracteres')
+                ]) 
                 ),
               TextFormField(
                 key: ValueKey('email'),
                 initialValue: _formData.email,
                 onChanged: (email) => _formData.email = email,
                 decoration: InputDecoration(labelText: 'Email'),
-                validator: Validatorless.email('Email inválido'),
-              ),
+                validator: Validatorless.multiple([
+                 Validatorless.email('Email inválido'),
+                 Validatorless.required('Email inválido'),
+              ]),
+             ),
               TextFormField(
                 obscureText: true,
                 key: ValueKey('password'),
                 initialValue: _formData.password,
                 onChanged: (password) => _formData.password = password,
                 decoration: InputDecoration(labelText: 'Senha'),
-                validator: Validatorless.min(
+                validator: Validatorless.multiple([
+                  Validatorless.min(
                   6,
                   'A senha deve conter pelo menos 6 caracteres',
                 ),
+                Validatorless.required('A senha deve conter pelo menos 6 caracteres')
+                ]) 
               ),
               SizedBox(height: 10),
               ElevatedButton(
