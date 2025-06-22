@@ -1,5 +1,6 @@
 class ToDoModel {
   final String id;
+  final String title;
   final String text;
   final DateTime createdAt;
 
@@ -8,6 +9,7 @@ class ToDoModel {
   final String userImageURL;
 
   ToDoModel({
+    required this.title,
     required this.id,
     required this.text,
     required this.createdAt,

@@ -8,7 +8,8 @@ class ToDoMockService implements ToDoService {
   static final List<ToDoModel> _listToDo = [
     ToDoModel(
       id: '1',
-      text: 'terminar um trabalho',
+      title: 'Terminar um trabalho',
+      text: 'Trabalho de matemática para o dia 12',
       createdAt: DateTime.now(),
       userID: '123',
       userName: 'renato',
@@ -16,6 +17,7 @@ class ToDoMockService implements ToDoService {
     ),
     ToDoModel(
       id: '13',
+      title: 'App para a Asimov',
       text: 'terminar um app',
       createdAt: DateTime.now(),
       userID: '321',
@@ -24,7 +26,8 @@ class ToDoMockService implements ToDoService {
     ),
     ToDoModel(
       id: '12',
-      text: 'terminar uma tarefa de casa',
+      title: 'Terminar tarefas de casa',
+      text: 'lavar a louça',
       createdAt: DateTime.now(),
       userID: '456',
       userName: 'samuel',
@@ -47,6 +50,7 @@ class ToDoMockService implements ToDoService {
   Future<ToDoModel> save(String text, LogUser user) async {
     final newToDo = ToDoModel(
       id: Random().nextDouble().toString(),
+      title: '',
       text: text,
       createdAt: DateTime.now(),
       userID: user.id,
