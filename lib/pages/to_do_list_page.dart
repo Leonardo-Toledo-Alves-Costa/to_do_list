@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:to_do_list/components/new_to_do.dart';
+import 'package:to_do_list/components/to_do.dart';
 import 'package:to_do_list/services/auth/auth_service.dart';
 
 class ToDoListPage extends StatelessWidget {
@@ -7,15 +9,44 @@ class ToDoListPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
+      appBar: AppBar(
+        title: Text('Tarefas Asimovianas'),
+        actions: [
+          DropdownButtonHideUnderline(
+            child: DropdownButton(
+              icon: Icon(
+                Icons.more_vert,
+                color: Theme.of(context).primaryIconTheme.color,
+              ),
+              items: [
+                DropdownMenuItem(
+                  value: 'logout',
+                  child: Row(
+                    children: [
+                      Icon(
+                        Icons.exit_to_app,
+                        color: Colors.black87,
+                      ),
+                      SizedBox(width: 10),
+                      Text('Sair'),
+                    ],
+                  ),
+                ),
+              ],
+              onChanged: (value) {
+                if (value == 'logout') {
+                  AuthService().logout();
+                }
+              },
+            ),
+          ), 
+        ],
+      ),
+      body: SafeArea(
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text('To Do List Page'),
-            TextButton(
-            onPressed: AuthService().logout, 
-            child: Text('Sair da aplicação'),
-            )
+            Expanded(child: ToDo()),
+            NewToDo(),
           ],
         ),
       ),
