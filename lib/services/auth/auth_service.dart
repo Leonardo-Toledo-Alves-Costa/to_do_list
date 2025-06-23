@@ -1,7 +1,6 @@
 import 'dart:io';
-
 import 'package:to_do_list/models/log_user.dart';
-import 'package:to_do_list/services/auth/auth_mock_service.dart';
+import 'package:to_do_list/services/auth/auth_firebase_service.dart';
 
 abstract class AuthService {
   LogUser get currentUser;
@@ -13,6 +12,6 @@ abstract class AuthService {
   Future<void> logout();
 
   factory AuthService(){
-    return AuthMockService();
+    return AuthFirebaseService();
   }
 }
