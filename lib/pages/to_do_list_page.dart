@@ -47,6 +47,10 @@ class ToDoListPage extends StatelessWidget {
           children: [
             Expanded(child: ToDo()),
             NewToDo(),
+            ElevatedButton(
+              onPressed: () {}, 
+              child: Icon(Icons.add)
+            )
           ],
         ),
       ),

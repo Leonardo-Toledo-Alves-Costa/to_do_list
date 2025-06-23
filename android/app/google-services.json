@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "694592744428",
+    "project_id": "to-do-list-asimov",
+    "storage_bucket": "to-do-list-asimov.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:694592744428:android:5596135f7aae84cd5aeec9",
+        "android_client_info": {
+          "package_name": "br.com.asimov.todolist"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBmVpBcf7IrtAnzruU1ZEr0mfv9nOSmank"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -30,9 +30,8 @@ class _AuthPageState extends State<AuthPage> {
       formData.password, 
       formData.image);
     }
-    }catch(error){
-
-    }finally {
+    }
+    finally {
     setState(() {
       _isLoading = false;
     });
