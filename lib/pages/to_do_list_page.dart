@@ -23,7 +23,7 @@ class _ToDoListPageState extends State<ToDoListPage> {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: Text('Novo Item'),
+        title: Text('Novo Item', style: TextStyle(fontWeight: FontWeight.bold, color: Colors.black),),
         content: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
