@@ -12,11 +12,11 @@ class ToDoFirebaseService implements ToDoService {
   }
 
   @override
-  Future<ToDoModel?> save(String text, LogUser user) async {
+  Future<ToDoModel?> save(ToDoModel item, LogUser user) async {
     final store = FirebaseFirestore.instance;
     store.collection('itens').add({
-      'title': text,
-      'text': text,
+      'title': item.title,
+      'text': item.text,
       'createdAt': DateTime.now.toString(),
       'userID': user.id,
       'userName': user.name,

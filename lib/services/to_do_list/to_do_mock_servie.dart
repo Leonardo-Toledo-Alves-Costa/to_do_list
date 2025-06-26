@@ -2,7 +2,6 @@ import 'dart:async';
 import 'package:to_do_list/models/log_user.dart';
 import 'package:to_do_list/models/to_do_model.dart';
 import 'package:to_do_list/services/to_do_list/to_do_service.dart';
-import 'dart:math';
 
 class ToDoMockService implements ToDoService {
   static final List<ToDoModel> _listToDo = [
@@ -47,11 +46,11 @@ class ToDoMockService implements ToDoService {
   }
 
   @override
-  Future<ToDoModel> save(String text, LogUser user) async {
+  Future<ToDoModel> save(ToDoModel item, LogUser user) async {
     final newToDo = ToDoModel(
-      id: Random().nextDouble().toString(),
-      title: '',
-      text: text,
+      id: item.id,
+      title: item.title,
+      text: item.text,
       createdAt: DateTime.now(),
       userID: user.id,
       userName: user.name,

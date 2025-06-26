@@ -1,7 +1,7 @@
-import 'dart:math';
 import 'package:flutter/material.dart';
+import 'package:to_do_list/components/new_to_do.dart';
+import 'package:to_do_list/components/to_do_bubble.dart';
 import 'package:to_do_list/services/auth/auth_service.dart';
-import 'package:to_do_list/components/item_to_do.dart';
 import 'package:to_do_list/models/to_do_model.dart';
 
 class ToDoListPage extends StatefulWidget {
@@ -13,54 +13,14 @@ class ToDoListPage extends StatefulWidget {
 
 class _ToDoListPageState extends State<ToDoListPage> {
   final List<ToDoModel> _items = [];
+  final newItem = NewToDo();
 
-  void _showAddItemDialog() {
-    final user = AuthService().currentUser;
-
-    final titleController = TextEditingController();
-    final textController = TextEditingController();
-
-    showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: Text('Novo Item', style: TextStyle(fontWeight: FontWeight.bold, color: Colors.black),),
-        content: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            TextField(
-              controller: titleController,
-              decoration: InputDecoration(labelText: 'Título'),
-            ),
-            TextField(
-              controller: textController,
-              decoration: InputDecoration(labelText: 'Descrição'),
-            ),
-          ],
-        ),
-        actions: [
-          ElevatedButton(
-            onPressed: () {
-              if (titleController.text.isNotEmpty && textController.text.isNotEmpty) {
-                setState(() {
-                  _items.add(ToDoModel(
-                    userName: user.name,
-                    userID: user.id,
-                    userImageURL: user.imageURL,
-                    createdAt: DateTime.now(),
-                    id: Random().nextDouble().toString(),
-                    title: titleController.text,
-                    text: textController.text,
-                  ));
-                });
-                Navigator.of(context).pop();
-              }
-            },
-            child: Text('Adicionar'),
-          ),
-        ],
-      ),
-    );
+    void _addNewItem(ToDoModel item) {
+    setState(() {
+      _items.add(item);
+    });
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -103,15 +63,12 @@ class _ToDoListPageState extends State<ToDoListPage> {
           children: [
             Expanded(
               child: ListView.builder(
-                itemCount: _items.length,
-                itemBuilder: (context, index) => ItemToDo(itemToDo: _items[index]),
+                itemCount: _items.length ,
+                itemBuilder: (context, index) => ToDoBubble(itemToDo: _items[index]),
               ),
             ),
             SizedBox(height: 10),
-            ElevatedButton(
-              onPressed: _showAddItemDialog,
-              child: Icon(Icons.add),
-            ),
+            NewToDo(onAdd: _addNewItem),
             SizedBox(height: 10),
           ],
         ),
