@@ -5,7 +5,6 @@ import 'package:to_do_list/models/to_do_model.dart';
 import 'package:to_do_list/services/to_do_list/to_do_service.dart';
 
 class ToDoFirebaseService implements ToDoService {
-
   @override
   Stream<List<ToDoModel>> streamToDoItens() {
     return Stream<List<ToDoModel>>.empty();
@@ -14,14 +13,25 @@ class ToDoFirebaseService implements ToDoService {
   @override
   Future<ToDoModel?> save(ToDoModel item, LogUser user) async {
     final store = FirebaseFirestore.instance;
-    store.collection('itens').add({
+    final docRef = await store.collection('itens').add({
       'title': item.title,
       'text': item.text,
-      'createdAt': DateTime.now.toString(),
+      'createdAt': DateTime.now().toIso8601String(),
       'userID': user.id,
       'userName': user.name,
       'userImageURL': user.imageURL,
     });
-    return null;
+
+    final doc = await docRef.get();
+    final data = doc.data()!;
+    return ToDoModel(
+      title: data['title'],
+      id: doc.id,
+      text: data['text'],
+      createdAt: DateTime.parse(data['createdAt']),
+      userID: data['userID'],
+      userName: data['userName'],
+      userImageURL: data['userImageURL'],
+    );
   }
 }
